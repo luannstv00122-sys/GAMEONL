@@ -62,8 +62,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5564176628538112651}
   - {fileID: 812377654432568414}
@@ -99,10 +99,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6295815396352711875}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -159,13 +159,9 @@ MonoBehaviour:
   randomPatrol: 1
   patrolSpeed: 1
   chaseSpeed: 5
-  player: {fileID: 0}
   chaseRange: 8
   loseRange: 12
   stopDistance: 8
-  sightMask:
-    serializedVersion: 2
-    m_Bits: 72
   eyePoint: {fileID: 3399676511380618137}
 --- !u!114 &6409630081403596708
 MonoBehaviour:
@@ -182,9 +178,6 @@ MonoBehaviour:
   attackCooldown: 1.5
   attackBoxSize: {x: 2, y: 2, z: 2}
   attackForwardOffset: 1.5
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
   bulletPrefab: {fileID: 3533677956500067485, guid: bf5488ff71a55c1458332c8711deff83, type: 3}
   firePoint: {fileID: 812377654432568414}
   bulletDamage: 20

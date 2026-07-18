@@ -13,15 +13,14 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float chaseSpeed = 5f;
 
     [Header("Chase")]
-    [SerializeField] private Transform player;
     [SerializeField] private float chaseRange = 8f;
     [SerializeField] private float loseRange = 12f;
     [SerializeField] private float stopDistance = 1.5f;
 
     [Header("Sight")]
-    [SerializeField] private LayerMask sightMask;
     [SerializeField] private Transform eyePoint;
 
+    private Transform player;
     private EnemyAttackBase enemyAttack;
     private bool isChasing;
 
@@ -68,6 +67,11 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        FindClosestPlayer();
+
+        if (player == null)
+            return;
+
         CheckPlayer();
 
         float speed = 0f;
@@ -141,11 +145,11 @@ public class EnemyAI : MonoBehaviour
     }
 
     private bool CanSeePlayer()
-    {   
+    {
         Vector3 origin = eyePoint.position;
         Vector3 direction = (player.position - origin).normalized;
 
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, chaseRange, sightMask))
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, chaseRange))
         {
             return hit.collider.CompareTag("Player");
         }
@@ -170,6 +174,25 @@ public class EnemyAI : MonoBehaviour
             agent.isStopped = true;
 
             enemyAttack.Attack();
+        }
+    }
+
+    private void FindClosestPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        player = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject p in players)
+        {
+            float distance = Vector3.Distance(transform.position, p.transform.position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                player = p.transform;
+            }
         }
     }
 

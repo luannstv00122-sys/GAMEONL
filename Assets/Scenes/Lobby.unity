@@ -4086,7 +4086,7 @@ MonoBehaviour:
   characterPanel: {fileID: 1536391234}
   mapNames:
   - Maintenance Deck
-  - Cargo Bay 04
+  - Map1
   - Hangar G8
   - Sci-Fi Corridor Alpha
 --- !u!4 &891346831

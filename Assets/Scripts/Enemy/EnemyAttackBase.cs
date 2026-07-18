@@ -8,7 +8,6 @@ public abstract class EnemyAttackBase : MonoBehaviour
     [Header("Attack Area")]
     public Vector3 attackBoxSize = new Vector3(2f, 2f, 2f);
     public float attackForwardOffset = 1.5f;
-    public LayerMask targetLayer;
 
     protected float cooldownTimer;
     protected Animator animator;
@@ -33,28 +32,29 @@ public abstract class EnemyAttackBase : MonoBehaviour
     {
         Vector3 center = transform.position + transform.forward * attackForwardOffset;
 
-        return Physics.OverlapBox(
+        Collider[] hits = Physics.OverlapBox(
             center,
             attackBoxSize * 0.5f,
-            transform.rotation,
-            targetLayer
+            transform.rotation
         );
+
+        return hits;
     }
 
     public abstract void Attack();
 
     private void OnDrawGizmos()
-{
-    Gizmos.color = Color.red;
+    {
+        Gizmos.color = Color.red;
 
-    Vector3 center = transform.position + transform.forward * attackForwardOffset;
+        Vector3 center = transform.position + transform.forward * attackForwardOffset;
 
-    Gizmos.matrix = Matrix4x4.TRS(
-        center,
-        transform.rotation,
-        Vector3.one
-    );
+        Gizmos.matrix = Matrix4x4.TRS(
+            center,
+            transform.rotation,
+            Vector3.one
+        );
 
-    Gizmos.DrawWireCube(Vector3.zero, attackBoxSize);
-}
+        Gizmos.DrawWireCube(Vector3.zero, attackBoxSize);
+    }
 }

@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Maintenance Deck.unity
     guid: 232b45447551704428172f357e5277fe
+  - enabled: 1
+    path: Assets/Scenes/Map1.unity
+    guid: 4832882a619386343aefa2ac6cbfcee6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
