@@ -1127,6 +1127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a164233f05a6e647ac5fea95d1467c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicSpawner
+  sessionName: TestRoom
+  maxPlayers: 3
+  lobbyStatePrefab:
+    RawGuidValue: 00000000000000000000000000000000
+  characterPrefabs: []
 --- !u!114 &1772253876
 MonoBehaviour:
   m_ObjectHideFlags: 0
