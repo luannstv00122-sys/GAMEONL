@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "194016690326",
+    "firebase_url": "https://hutur-b408d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hutur-b408d",
+    "storage_bucket": "hutur-b408d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194016690326:android:75a2766a2c6080c02a82b7",
+        "android_client_info": {
+          "package_name": "com.UnityTechnologies.com.unity.template.urpblank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL_gP5qbiCss-ikuAupNOOxhoUoLZR07s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
