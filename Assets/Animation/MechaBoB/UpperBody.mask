@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UpperBody
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: DeformationSystem
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_L/BackLeg2_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_L/BackLeg2_L/BackLeg3_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_L/BackLeg2_L/BackLeg3_L/BackLeg4_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_L/BackLeg2_L/BackLeg3_L/BackLeg4_L/BackLeg5_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_L/BackLeg2_L/BackLeg3_L/BackLeg4_L/BackLeg5_L/BackLegEnd_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_R/BackLeg2_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_R/BackLeg2_R/BackLeg3_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_R/BackLeg2_R/BackLeg3_R/BackLeg4_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_R/BackLeg2_R/BackLeg3_R/BackLeg4_R/BackLeg5_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/BackLeg1_R/BackLeg2_R/BackLeg3_R/BackLeg4_R/BackLeg5_R/BackLegEnd_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_L/FrontLeg2_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_L/FrontLeg2_L/FrontLeg3_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_L/FrontLeg2_L/FrontLeg3_L/FrontLeg4_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_L/FrontLeg2_L/FrontLeg3_L/FrontLeg4_L/FrontLeg5_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_L/FrontLeg2_L/FrontLeg3_L/FrontLeg4_L/FrontLeg5_L/FrontLegEnd_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_R/FrontLeg2_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_R/FrontLeg2_R/FrontLeg3_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_R/FrontLeg2_R/FrontLeg3_R/FrontLeg4_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_R/FrontLeg2_R/FrontLeg3_R/FrontLeg4_R/FrontLeg5_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/FrontLeg1_R/FrontLeg2_R/FrontLeg3_R/FrontLeg4_R/FrontLeg5_R/FrontLegEnd_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_L/MiddleLeg2_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_L/MiddleLeg2_L/MiddleLeg3_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_L/MiddleLeg2_L/MiddleLeg3_L/MiddleLeg4_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_L/MiddleLeg2_L/MiddleLeg3_L/MiddleLeg4_L/MiddleLeg5_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_L/MiddleLeg2_L/MiddleLeg3_L/MiddleLeg4_L/MiddleLeg5_L/MiddleLegEnd_L
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_R/MiddleLeg2_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_R/MiddleLeg2_R/MiddleLeg3_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_R/MiddleLeg2_R/MiddleLeg3_R/MiddleLeg4_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_R/MiddleLeg2_R/MiddleLeg3_R/MiddleLeg4_R/MiddleLeg5_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/MiddleLeg1_R/MiddleLeg2_R/MiddleLeg3_R/MiddleLeg4_R/MiddleLeg5_R/MiddleLegEnd_R
+    m_Weight: 1
+  - m_Path: DeformationSystem/Root_M/Top_M
+    m_Weight: 0
+  - m_Path: DeformationSystem/Root_M/Top_M/ShotgunBot_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/Root_M/Top_M/ShotgunBot_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/Root_M/Top_M/ShotgunTop_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/Root_M/Top_M/ShotgunTop_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/Root_M/Top_M/TopEnd_M
+    m_Weight: 0
+  - m_Path: SK_Mech_LOD0
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD0/SK_Mech_Bottom_LOD0
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD0/SK_Mech_Shotguns_Bottom_LOD0
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD0/SK_Mech_Shotguns_Top_LOD0
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD0/SK_Mech_Top_LOD0
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD1
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD1/SK_Mech_Bottom_LOD1
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD1/SK_Mech_Shotguns_Bottom_LOD1
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD1/SK_Mech_Shotguns_Top_LOD1
+    m_Weight: 1
+  - m_Path: SK_Mech_LOD1/SK_Mech_Top_LOD1
+    m_Weight: 1

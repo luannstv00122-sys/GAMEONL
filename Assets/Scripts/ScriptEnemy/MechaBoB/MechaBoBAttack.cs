@@ -1,0 +1,55 @@
+using UnityEngine;
+
+public class MechaBoBAttack : EnemyAttackBase
+{
+    [Header("Gun")]
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform[] firePoints;
+
+    [Header("Bullet")]
+    [SerializeField] private float bulletSpeed = 40f;
+
+    private Transform player;
+
+    private void Start()
+    {
+        GameObject obj = GameObject.FindGameObjectWithTag("Player");
+
+        if (obj != null)
+            player = obj.transform;
+    }
+
+    public override void Attack()
+    {
+        if (!CanAttack())
+            return;
+
+        StartCoroutine(BurstFire(FireBullets));
+    }
+
+    private void FireBullets()
+    {
+        if (bulletPrefab == null)
+            return;
+
+        foreach (Transform point in firePoints)
+        {
+            if (point == null)
+                continue;
+
+            GameObject bulletObj = RangedAttack(
+                bulletPrefab,
+                point,
+                player,
+                bulletSpeed
+            );
+
+            Bullet bullet = bulletObj.GetComponent<Bullet>();
+
+            if (bullet != null)
+            {
+                // bullet.damage = bulletDamage;
+            }
+        }
+    }
+}
