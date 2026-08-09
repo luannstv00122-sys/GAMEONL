@@ -1,93 +1,67 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
-public class LaserUltimateSkill : MonoBehaviour
+public class LaserUltimateSkill : MonoBehaviour, IPlayerSkillUI
 {
-    [Header("Laser Skill")]
     public GameObject laserPrefab;
     public Transform laserPoint;
-    public Camera playerCamera;
-
-    [Header("Laser Movement")]
     public float laserSpeed = 40f;
     public float laserDuration = 3f;
     public float rotationOffsetY = 90f;
-
-    [Header("Mana")]
     public PlayerMana playerMana;
     public float manaCost = 100f;
-
-    [Header("Cooldown")]
     public float cooldown = 20f;
-    private float currentCooldown;
-
-    [Header("Animation")]
     public Animator animator;
     public string animationTrigger = "UtiShot";
-
-    [Header("UI")]
     public Image cooldownImage;
     public Image skillIcon;
 
+    private float currentCooldown;
     private GameObject currentLaser;
 
-    void Start()
+    private void Start()
     {
-        if (playerCamera == null)
-            playerCamera = Camera.main;
-
         if (animator == null)
             animator = GetComponent<Animator>();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
 
         if (playerMana == null)
             playerMana = GetComponent<PlayerMana>();
 
-        if (cooldownImage != null)
-            cooldownImage.fillAmount = 1f;
+        UpdateCooldownUI();
     }
 
-    void Update()
-    {
-        UpdateCooldown();
-
-        if (Keyboard.current != null &&
-            Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            UseLaserSkill();
-        }
-    }
-
-    void UseLaserSkill()
+    private void Update()
     {
         if (currentCooldown > 0f)
         {
-            Debug.Log("Chiêu laser đang hồi");
-            return;
+            currentCooldown -= Time.deltaTime;
+            currentCooldown = Mathf.Max(currentCooldown, 0f);
         }
 
-        if (laserPrefab == null || laserPoint == null || playerCamera == null)
-        {
-            Debug.LogWarning(
-                "Thiếu Laser Prefab, Laser Point hoặc Player Camera"
-            );
+        UpdateCooldownUI();
+    }
+
+    public void TryUseFromNetwork(Vector3 aimDirection)
+    {
+        if (currentCooldown > 0f)
             return;
-        }
+
+        if (laserPrefab == null || laserPoint == null)
+            return;
 
         if (playerMana == null || !playerMana.UseMana(manaCost))
-        {
-            Debug.Log("Không đủ mana để dùng laser");
             return;
-        }
 
         if (animator != null)
             animator.SetTrigger(animationTrigger);
 
-        Ray ray = playerCamera.ViewportPointToRay(
-            new Vector3(0.5f, 0.5f, 0f)
-        );
+        if (aimDirection.sqrMagnitude < 0.001f)
+            aimDirection = transform.forward;
 
-        Vector3 direction = ray.direction.normalized;
+        Vector3 direction = aimDirection.normalized;
 
         Quaternion laserRotation =
             Quaternion.LookRotation(direction) *
@@ -99,12 +73,12 @@ public class LaserUltimateSkill : MonoBehaviour
             laserRotation
         );
 
-        LaserProjectile laserProjectile =
+        LaserProjectile projectile =
             currentLaser.GetComponent<LaserProjectile>();
 
-        if (laserProjectile != null)
+        if (projectile != null)
         {
-            laserProjectile.Initialize(
+            projectile.Initialize(
                 direction,
                 laserSpeed,
                 laserDuration
@@ -112,44 +86,41 @@ public class LaserUltimateSkill : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning(
-                "Prefab Laser chưa gắn script LaserProjectile"
-            );
-
             Destroy(currentLaser, laserDuration);
         }
 
         currentCooldown = cooldown;
-
-        if (cooldownImage != null)
-            cooldownImage.fillAmount = 0f;
+        UpdateCooldownUI();
     }
 
-    void UpdateCooldown()
+    private void UpdateCooldownUI()
     {
-        if (currentCooldown > 0f)
+        if (cooldownImage != null)
         {
-            currentCooldown -= Time.deltaTime;
-            currentCooldown = Mathf.Max(currentCooldown, 0f);
-
-            if (cooldownImage != null)
-            {
-                cooldownImage.fillAmount =
-                    1f - currentCooldown / cooldown;
-            }
-
-            if (skillIcon != null)
-                skillIcon.color = Color.gray;
+            cooldownImage.fillAmount =
+                cooldown <= 0f
+                    ? 1f
+                    : 1f - currentCooldown / cooldown;
         }
-        else
+
+        if (skillIcon != null)
         {
-            currentCooldown = 0f;
-
-            if (cooldownImage != null)
-                cooldownImage.fillAmount = 1f;
-
-            if (skillIcon != null)
-                skillIcon.color = Color.white;
+            skillIcon.color =
+                currentCooldown > 0f
+                    ? Color.gray
+                    : Color.white;
         }
+    }
+
+    public void SetPlayerMana(PlayerMana mana)
+    {
+        playerMana = mana;
+    }
+
+    public void SetSkillUI(Image newCooldownImage, Image newSkillIcon)
+    {
+        cooldownImage = newCooldownImage;
+        skillIcon = newSkillIcon;
+        UpdateCooldownUI();
     }
 }

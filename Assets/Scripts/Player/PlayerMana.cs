@@ -8,39 +8,42 @@ public class PlayerMana : MonoBehaviour
     public float currentMana = 100f;
 
     [Header("Mana Regeneration")]
-    public float manaRegenPerSecond = 1f;   // Hồi 10 mana mỗi giây
+    public float manaRegenPerSecond = 1f;
 
     [Header("UI")]
-    public Image manaFill;
+    [SerializeField] private Image manaFill;
 
-    void Start()
+    private void Start()
     {
         currentMana = maxMana;
         UpdateManaUI();
     }
 
-    void Update()
+    private void Update()
     {
         RegenerateMana();
     }
 
-    void RegenerateMana()
+    private void RegenerateMana()
     {
         if (currentMana >= maxMana)
             return;
 
         currentMana += manaRegenPerSecond * Time.deltaTime;
-        currentMana = Mathf.Clamp(currentMana, 0, maxMana);
-
+        currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
         UpdateManaUI();
     }
 
     public bool UseMana(float amount)
     {
+        if (amount <= 0f)
+            return true;
+
         if (currentMana < amount)
             return false;
 
         currentMana -= amount;
+        currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
         UpdateManaUI();
 
         return true;
@@ -48,15 +51,30 @@ public class PlayerMana : MonoBehaviour
 
     public void AddMana(float amount)
     {
-        currentMana += amount;
-        currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+        if (amount <= 0f)
+            return;
 
+        currentMana += amount;
+        currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
         UpdateManaUI();
     }
 
-    void UpdateManaUI()
+    public void SetManaFill(Image image)
     {
-        if (manaFill != null)
-            manaFill.fillAmount = currentMana / maxMana;
+        manaFill = image;
+        UpdateManaUI();
+    }
+
+    public float GetManaPercent()
+    {
+        return maxMana > 0f ? currentMana / maxMana : 0f;
+    }
+
+    private void UpdateManaUI()
+    {
+        if (manaFill == null)
+            return;
+
+        manaFill.fillAmount = GetManaPercent();
     }
 }

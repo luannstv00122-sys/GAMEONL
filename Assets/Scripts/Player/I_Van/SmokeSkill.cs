@@ -1,92 +1,77 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
-public class SmokeSkill : MonoBehaviour
+public class SmokeSkill : MonoBehaviour, IPlayerSkillUI
 {
-    [Header("Smoke")]
     public GameObject smokePrefab;
     public Transform smokePoint;
-    public Camera playerCamera;
-
-    [Header("Smoke Settings")]
     public float smokeSpeed = 15f;
     public float smokeLifeTime = 2f;
     public float spawnRate = 0.05f;
     public float skillDuration = 10f;
-
-    [Header("Mana")]
     public PlayerMana playerMana;
-    public float manaCost = 50;
-
-    [Header("Cooldown")]
+    public float manaCost = 50f;
     public float cooldown = 20f;
-
-    private float currentCooldown;
-
-    [Header("UI")]
     public Image cooldownImage;
     public Image skillIcon;
 
-    bool isUsingSkill;
+    private float currentCooldown;
+    private bool isUsingSkill;
+    private float skillTimer;
+    private float spawnTimer;
+    private Vector3 networkAimDirection;
 
-    float skillTimer;
-
-    float spawnTimer;
-
-    void Start()
+    private void Start()
     {
-        if (playerCamera == null)
-            playerCamera = Camera.main;
-
         if (playerMana == null)
             playerMana = GetComponent<PlayerMana>();
 
-        if (cooldownImage != null)
-            cooldownImage.fillAmount = 1;
+        UpdateCooldownUI();
     }
 
-    void Update()
+    private void Update()
     {
-        UpdateCooldown();
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (currentCooldown > 0f)
         {
-            StartSkill();
+            currentCooldown -= Time.deltaTime;
+            currentCooldown = Mathf.Max(currentCooldown, 0f);
         }
+
+        UpdateCooldownUI();
 
         if (isUsingSkill)
-        {
             UpdateSkill();
-        }
     }
 
-    //---------------------------------------------------
-
-    void StartSkill()
+    public void TryUseFromNetwork(Vector3 aimDirection)
     {
-        if (currentCooldown > 0)
+        if (currentCooldown > 0f)
             return;
 
-        if (!playerMana.UseMana(manaCost))
+        if (smokePrefab == null || smokePoint == null)
             return;
+
+        if (playerMana == null || !playerMana.UseMana(manaCost))
+            return;
+
+        networkAimDirection =
+            aimDirection.sqrMagnitude > 0.001f
+                ? aimDirection.normalized
+                : transform.forward;
 
         currentCooldown = cooldown;
-
         skillTimer = skillDuration;
-
-        spawnTimer = 0;
-
+        spawnTimer = 0f;
         isUsingSkill = true;
+
+        UpdateCooldownUI();
     }
 
-    //---------------------------------------------------
-
-    void UpdateSkill()
+    private void UpdateSkill()
     {
         skillTimer -= Time.deltaTime;
 
-        if (skillTimer <= 0)
+        if (skillTimer <= 0f)
         {
             isUsingSkill = false;
             return;
@@ -97,19 +82,15 @@ public class SmokeSkill : MonoBehaviour
         if (spawnTimer < spawnRate)
             return;
 
-        spawnTimer = 0;
+        spawnTimer = 0f;
 
-        Ray ray =
-            playerCamera.ViewportPointToRay(
-                new Vector3(.5f, .5f));
+        Vector3 direction = networkAimDirection;
 
-        Vector3 direction = ray.direction;
-
-        GameObject smoke =
-            Instantiate(
-                smokePrefab,
-                smokePoint.position,
-                Quaternion.LookRotation(direction));
+        GameObject smoke = Instantiate(
+            smokePrefab,
+            smokePoint.position,
+            Quaternion.LookRotation(direction)
+        );
 
         SmokeProjectile projectile =
             smoke.GetComponent<SmokeProjectile>();
@@ -119,7 +100,8 @@ public class SmokeSkill : MonoBehaviour
             projectile.Initialize(
                 direction,
                 smokeSpeed,
-                smokeLifeTime);
+                smokeLifeTime
+            );
         }
         else
         {
@@ -127,35 +109,34 @@ public class SmokeSkill : MonoBehaviour
         }
     }
 
-    //---------------------------------------------------
-
-    void UpdateCooldown()
+    private void UpdateCooldownUI()
     {
-        if (currentCooldown > 0)
+        if (cooldownImage != null)
         {
-            currentCooldown -= Time.deltaTime;
-
-            if (currentCooldown < 0)
-                currentCooldown = 0;
-
-            if (cooldownImage != null)
-            {
-                cooldownImage.fillAmount =
-                    1 -
-                    currentCooldown /
-                    cooldown;
-            }
-
-            if (skillIcon != null)
-                skillIcon.color = Color.gray;
+            cooldownImage.fillAmount =
+                cooldown <= 0f
+                    ? 1f
+                    : 1f - currentCooldown / cooldown;
         }
-        else
+
+        if (skillIcon != null)
         {
-            if (cooldownImage != null)
-                cooldownImage.fillAmount = 1;
-
-            if (skillIcon != null)
-                skillIcon.color = Color.white;
+            skillIcon.color =
+                currentCooldown > 0f
+                    ? Color.gray
+                    : Color.white;
         }
+    }
+
+    public void SetPlayerMana(PlayerMana mana)
+    {
+        playerMana = mana;
+    }
+
+    public void SetSkillUI(Image newCooldownImage, Image newSkillIcon)
+    {
+        cooldownImage = newCooldownImage;
+        skillIcon = newSkillIcon;
+        UpdateCooldownUI();
     }
 }

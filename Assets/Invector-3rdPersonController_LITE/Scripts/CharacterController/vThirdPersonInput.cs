@@ -11,6 +11,9 @@ namespace Invector.vCharacterController
         [HideInInspector] public vThirdPersonController cc;
         [HideInInspector] public vThirdPersonCamera tpCamera;
         [HideInInspector] public Camera cameraMain;
+        [Header("Fusion")]
+        public bool useFusionInput = true;
+        
 
         protected virtual void Start()
         {
@@ -19,22 +22,34 @@ namespace Invector.vCharacterController
         }
 
         protected virtual void FixedUpdate()
-        {
-            cc.UpdateMotor();
-            cc.ControlLocomotionType();
-            cc.ControlRotationType();
-        }
+{
+    if (useFusionInput)
+        return;
+
+    cc.UpdateMotor();
+    cc.ControlLocomotionType();
+    cc.ControlRotationType();
+}
 
         protected virtual void Update()
-        {
-            InputHandle();
-            cc.UpdateAnimator();
-        }
+{
+    if (useFusionInput)
+    {
+        CameraInput();
+        return;
+    }
+
+    InputHandle();
+    cc.UpdateAnimator();
+}
 
         public virtual void OnAnimatorMove()
-        {
-            cc.ControlAnimatorRootMotion();
-        }
+{
+    if (useFusionInput)
+        return;
+
+    cc.ControlAnimatorRootMotion();
+}
 
         protected virtual void InitilizeController()
         {

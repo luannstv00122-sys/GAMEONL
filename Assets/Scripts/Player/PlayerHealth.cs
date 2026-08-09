@@ -9,46 +9,62 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth = 100f;
 
     [Header("UI")]
-    public Image healthFill;
+    [SerializeField] private Image healthFill;
 
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
     }
 
-    void Update()
+    private void Update()
     {
-        // Test
+        if (Keyboard.current == null)
+            return;
+
         if (Keyboard.current.hKey.wasPressedThisFrame)
-        {
-            TakeDamage(10);
-        }
+            TakeDamage(10f);
 
         if (Keyboard.current.jKey.wasPressedThisFrame)
-        {
-            Heal(10);
-        }
+            Heal(10f);
     }
 
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (damage <= 0f)
+            return;
 
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         UpdateHealthUI();
     }
 
     public void Heal(float amount)
     {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (amount <= 0f)
+            return;
 
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         UpdateHealthUI();
     }
 
-    void UpdateHealthUI()
+    public void SetHealthFill(Image image)
     {
-        healthFill.fillAmount = currentHealth / maxHealth;
+        healthFill = image;
+        UpdateHealthUI();
+    }
+
+    public float GetHealthPercent()
+    {
+        return maxHealth > 0f ? currentHealth / maxHealth : 0f;
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthFill == null)
+            return;
+
+        healthFill.fillAmount = GetHealthPercent();
     }
 }

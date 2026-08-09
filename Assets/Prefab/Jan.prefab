@@ -1334,6 +1334,11 @@ GameObject:
   - component: {fileID: 8463009514740077}
   - component: {fileID: 1997100525962399312}
   - component: {fileID: 1646890165452656230}
+  - component: {fileID: -1211715244512980981}
+  - component: {fileID: -6230707463046379447}
+  - component: {fileID: 9043093060363022495}
+  - component: {fileID: 6431705239135354375}
+  - component: {fileID: 1664966184683161908}
   m_Layer: 0
   m_Name: Jan
   m_TagString: Player
@@ -1449,6 +1454,7 @@ MonoBehaviour:
   cc: {fileID: 0}
   tpCamera: {fileID: 0}
   cameraMain: {fileID: 0}
+  useFusionInput: 1
 --- !u!54 &6447850199204613751
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1511,7 +1517,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30220fe40ab697b41b07bdd0013d03d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestShootingAnimation
-  animator: {fileID: 5511498781588713188}
+  firePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  projectileSpeed: 25
+  lifeTime: 3
+  fireScale: 0.4
+  buffSkill: {fileID: 0}
 --- !u!114 &3917432501660207146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1608,14 +1619,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkPlayerSetup
   localOnlyScripts:
-  - {fileID: 1933644461926795135}
   - {fileID: 138872340529443263}
   - {fileID: 430270035159687407}
-  - {fileID: 3917432501660207146}
-  - {fileID: 8473049200600453211}
-  - {fileID: 7204688439856760351}
-  - {fileID: 26189460776411957}
-  - {fileID: 1530099020023819747}
   playerCamera: {fileID: 5304616132532889529, guid: 600199d8a71a96e409b9a7d6bac8f83c, type: 3}
   audioListener: {fileID: 2762363909481174540, guid: 600199d8a71a96e409b9a7d6bac8f83c, type: 3}
 --- !u!114 &1997100525962399312
@@ -1637,6 +1642,10 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8463009514740077}
   - {fileID: 1646890165452656230}
+  - {fileID: -1211715244512980981}
+  - {fileID: -6230707463046379447}
+  - {fileID: 9043093060363022495}
+  - {fileID: 6431705239135354375}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &1646890165452656230
 MonoBehaviour:
@@ -1655,6 +1664,74 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!114 &-1211715244512980981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049255804480077517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ca0b97a9e13734094681757fdb69aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkInvectorController
+  controller: {fileID: 1933644461926795135}
+--- !u!114 &-6230707463046379447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049255804480077517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da7b5254b09adc4faaa68297aaec205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUIBinder
+  playerHealth: {fileID: 1530099020023819747}
+  playerMana: {fileID: 8473049200600453211}
+  skillQComponent: {fileID: 7204688439856760351}
+  skillEComponent: {fileID: 26189460776411957}
+--- !u!114 &9043093060363022495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049255804480077517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ff9b0fa6ccffb4ab91f5a3c0e3babd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkChat
+  maxMessageLength: 80
+--- !u!114 &6431705239135354375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049255804480077517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121cda824eed5294f800f5a888310723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkPlayerInfo
+  _CharacterIndex: 0
+--- !u!114 &1664966184683161908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049255804480077517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44145fcb6f174ca49bb458e0a58f41d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAim
+  animator: {fileID: 5511498781588713188}
 --- !u!1 &6078534819709905087
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,10 +2332,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GunFireFX
   firePrefab: {fileID: 5444172128159375971, guid: 7fe88c6b85543ab46af9c5d2e5eb0250, type: 3}
   firePoint: {fileID: 864713131275558183}
-  playerCamera: {fileID: 0}
   projectileSpeed: 20
   lifeTime: 3
   fireScale: 0.1
+  buffSkill: {fileID: 0}
 --- !u!1001 &6258601684369498477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2338,10 +2415,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GunFireFX
   firePrefab: {fileID: 5444172128159375971, guid: 7fe88c6b85543ab46af9c5d2e5eb0250, type: 3}
   firePoint: {fileID: 8485460132789031188}
-  playerCamera: {fileID: 0}
   projectileSpeed: 20
   lifeTime: 3
   fireScale: 0.1
+  buffSkill: {fileID: 0}
 --- !u!4 &6258601684369898477 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 1493f9878f1a95c4e8e3499f6ee36d07, type: 3}

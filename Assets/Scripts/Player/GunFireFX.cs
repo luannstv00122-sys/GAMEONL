@@ -1,40 +1,45 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GunFireFX : MonoBehaviour
 {
+    [Header("Fire")]
     public GameObject firePrefab;
     public Transform firePoint;
-    public Camera playerCamera;
 
+    [Header("Projectile")]
     public float projectileSpeed = 25f;
     public float lifeTime = 3f;
     public float fireScale = 0.4f;
 
-    void Start()
+    [Header("Buff")]
+    [SerializeField] private FireBulletBuffSkill buffSkill;
+
+    private void Awake()
     {
-        if (playerCamera == null)
-            playerCamera = Camera.main;
+        if (buffSkill == null)
+            buffSkill = GetComponent<FireBulletBuffSkill>();
+
+        if (buffSkill == null)
+            buffSkill = GetComponentInParent<FireBulletBuffSkill>();
+
+        if (buffSkill == null)
+            buffSkill = GetComponentInChildren<FireBulletBuffSkill>(true);
     }
 
-    void Update()
+    public void ShootFromNetwork(Vector3 aimDirection)
     {
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (firePrefab == null || firePoint == null)
         {
-            Shoot();
-        }
-    }
-
-    void Shoot()
-    {
-        if (firePrefab == null || firePoint == null || playerCamera == null)
-        {
-            Debug.LogWarning("Thiếu Fire Prefab, Fire Point hoặc Player Camera");
+            Debug.LogWarning(
+                $"{name}: Thiếu Fire Prefab hoặc Fire Point."
+            );
             return;
         }
 
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Vector3 direction = ray.direction;
+        if (aimDirection.sqrMagnitude < 0.001f)
+            aimDirection = transform.forward;
+
+        Vector3 direction = aimDirection.normalized;
 
         GameObject fire = Instantiate(
             firePrefab,
@@ -42,25 +47,38 @@ public class GunFireFX : MonoBehaviour
             Quaternion.LookRotation(direction)
         );
 
-        FireProjectile projectile = fire.GetComponent<FireProjectile>();
+        FireProjectile projectile =
+            fire.GetComponent<FireProjectile>();
 
-        fire.transform.localScale = Vector3.one * fireScale;
+        float finalScale = fireScale;
 
-        if (FireBulletBuffSkill.IsBuffActive)
+        if (buffSkill != null &&
+            buffSkill.IsBuffActive)
         {
-            fire.transform.localScale = Vector3.one * fireScale * FireBulletBuffSkill.BulletScaleMultiplier;
+            finalScale *=
+                buffSkill.BulletScaleMultiplier;
 
             if (projectile != null)
             {
-                projectile.damage *= FireBulletBuffSkill.DamageMultiplier;
+                projectile.damage *=
+                    buffSkill.DamageMultiplier;
             }
-
-            Debug.Log("Đạn buff ON - Scale: " + fire.transform.localScale);
         }
+
+        fire.transform.localScale =
+            Vector3.one * finalScale;
 
         if (projectile != null)
         {
-            projectile.SetDirection(direction, projectileSpeed, lifeTime);
+            projectile.SetDirection(
+                direction,
+                projectileSpeed,
+                lifeTime
+            );
+        }
+        else
+        {
+            Destroy(fire, lifeTime);
         }
     }
 }

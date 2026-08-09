@@ -9,13 +9,22 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 76054744495be9342bbe24d60c686f94
   - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 1571e49114051764a8e67354b6f52eae
+  - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 8165a8471f7029344a646e2cfda9d1dd
   - enabled: 1
     path: Assets/Scenes/Maintenance Deck.unity
     guid: 232b45447551704428172f357e5277fe
   - enabled: 1
-    path: Assets/Scenes/Map1.unity
-    guid: 4832882a619386343aefa2ac6cbfcee6
+    path: Assets/Scenes/Cargo Bay 04.unity
+    guid: 3761384699879964f8cf6780dafdacfe
+  - enabled: 1
+    path: Assets/Scenes/Hangar G8.unity
+    guid: 2ba73a30fd0613e42badbad9b61c2a8b
+  - enabled: 1
+    path: Assets/Scenes/Sci-Fi Corridor Alpha.unity
+    guid: 81930e60b52c0eb46ad80ad001342b79
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

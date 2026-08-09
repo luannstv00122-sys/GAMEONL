@@ -5,18 +5,36 @@ namespace Invector.vCharacterController
     public class vThirdPersonController : vThirdPersonAnimator
     {
         public virtual void ControlAnimatorRootMotion()
+{
+    if (!enabled)
+        return;
+
+    if (animator == null)
+    {
+        animator = GetComponent<Animator>();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        if (animator == null)
         {
-            if (!this.enabled) return;
+            Debug.LogError(
+                $"{name}: Không tìm thấy Animator cho vThirdPersonController."
+            );
 
-            if (inputSmooth == Vector3.zero)
-            {
-                transform.position = animator.rootPosition;
-                transform.rotation = animator.rootRotation;
-            }
-
-            if (useRootMotion)
-                MoveCharacter(moveDirection);
+            return;
         }
+    }
+
+    if (inputSmooth == Vector3.zero)
+    {
+        transform.position = animator.rootPosition;
+        transform.rotation = animator.rootRotation;
+    }
+
+    if (useRootMotion)
+        MoveCharacter(moveDirection);
+}
 
         public virtual void ControlLocomotionType()
         {

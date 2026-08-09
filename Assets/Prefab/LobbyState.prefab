@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f1e720d47506c4c840771a4faa03c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyState
-  firstMapBuildIndex: 2
+  firstMapBuildIndex: 3
   totalMaps: 4
   _SelectedMap: 0
   _GameStarted:

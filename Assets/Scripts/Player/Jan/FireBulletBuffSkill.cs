@@ -1,64 +1,59 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
-public class FireBulletBuffSkill : MonoBehaviour
+public class FireBulletBuffSkill : MonoBehaviour, IPlayerSkillUI
 {
-    public static bool IsBuffActive = false;
-    public static float DamageMultiplier = 1f;
-    public static float BulletScaleMultiplier = 1f;
-
-    [Header("Mana")]
     public PlayerMana playerMana;
     public float manaCost = 100f;
-
-    [Header("Cooldown")]
     public float cooldown = 20f;
-    private float currentCooldown = 0f;
-
-    [Header("Buff Duration")]
     public float buffDuration = 10f;
-    private float currentBuffTime = 0f;
-
-    [Header("Buff Settings")]
     public float damageMultiplier = 2f;
     public float bulletScaleMultiplier = 5f;
-
-    [Header("UI")]
     public Image cooldownImage;
     public Image skillIcon;
 
-    void Start()
-    {
-        IsBuffActive = false;
-        DamageMultiplier = 1f;
-        BulletScaleMultiplier = 1f;
+    private float currentCooldown;
+    private float currentBuffTime;
 
-        if (cooldownImage != null)
-            cooldownImage.fillAmount = 1f;
+    public bool IsBuffActive { get; private set; }
+    public float DamageMultiplier { get; private set; } = 1f;
+    public float BulletScaleMultiplier { get; private set; } = 1f;
+
+    private void Start()
+    {
+        if (playerMana == null)
+            playerMana = GetComponent<PlayerMana>();
+
+        ResetBuff();
+        UpdateCooldownUI();
     }
 
-    void Update()
+    private void Update()
     {
-        UpdateCooldown();
-        UpdateBuffTime();
-
-        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        if (currentCooldown > 0f)
         {
-            ActivateBuff();
+            currentCooldown -= Time.deltaTime;
+            currentCooldown = Mathf.Max(currentCooldown, 0f);
         }
+
+        if (IsBuffActive)
+        {
+            currentBuffTime -= Time.deltaTime;
+
+            if (currentBuffTime <= 0f)
+                ResetBuff();
+        }
+
+        UpdateCooldownUI();
     }
 
-    void ActivateBuff()
+    public void TryUseFromNetwork(Vector3 unusedAimDirection)
     {
-        if (currentCooldown > 0)
+        if (currentCooldown > 0f)
             return;
 
         if (playerMana == null || !playerMana.UseMana(manaCost))
-        {
-            Debug.Log("Không đủ Mana để dùng Skill E");
             return;
-        }
 
         IsBuffActive = true;
         DamageMultiplier = damageMultiplier;
@@ -67,50 +62,45 @@ public class FireBulletBuffSkill : MonoBehaviour
         currentBuffTime = buffDuration;
         currentCooldown = cooldown;
 
+        UpdateCooldownUI();
+    }
+
+    private void ResetBuff()
+    {
+        IsBuffActive = false;
+        DamageMultiplier = 1f;
+        BulletScaleMultiplier = 1f;
+        currentBuffTime = 0f;
+    }
+
+    private void UpdateCooldownUI()
+    {
         if (cooldownImage != null)
-            cooldownImage.fillAmount = 0f;
-
-        Debug.Log("Skill E: Đạn lửa đã được cường hóa");
-    }
-
-    void UpdateBuffTime()
-    {
-        if (!IsBuffActive) return;
-
-        currentBuffTime -= Time.deltaTime;
-
-        if (currentBuffTime <= 0)
         {
-            IsBuffActive = false;
-            DamageMultiplier = 1f;
-            BulletScaleMultiplier = 1f;
-            currentBuffTime = 0f;
+            cooldownImage.fillAmount =
+                cooldown <= 0f
+                    ? 1f
+                    : 1f - currentCooldown / cooldown;
+        }
 
-            Debug.Log("Skill E: Hết cường hóa đạn lửa");
+        if (skillIcon != null)
+        {
+            skillIcon.color =
+                currentCooldown > 0f
+                    ? Color.gray
+                    : Color.white;
         }
     }
 
-    void UpdateCooldown()
+    public void SetSkillUI(Image cooldown, Image icon)
     {
-        if (currentCooldown > 0)
-        {
-            currentCooldown -= Time.deltaTime;
+        cooldownImage = cooldown;
+        skillIcon = icon;
+        UpdateCooldownUI();
+    }
 
-            if (cooldownImage != null)
-                cooldownImage.fillAmount = 1f - (currentCooldown / cooldown);
-
-            if (skillIcon != null)
-                skillIcon.color = Color.gray;
-        }
-        else
-        {
-            currentCooldown = 0f;
-
-            if (cooldownImage != null)
-                cooldownImage.fillAmount = 1f;
-
-            if (skillIcon != null)
-                skillIcon.color = Color.white;
-        }
+    public void SetPlayerMana(PlayerMana mana)
+    {
+        playerMana = mana;
     }
 }
