@@ -10,6 +10,11 @@ public class AutoDoor : MonoBehaviour
     public float openDistance = 1.5f;
     public float openSpeed = 3f;
 
+    //----
+    [Header("Door Sound")]
+    public AudioSource doorAudioSource;
+    //----
+
     private Vector3 leftClosedPos;
     private Vector3 rightClosedPos;
 
@@ -62,9 +67,19 @@ public class AutoDoor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isOpen = true;
+           // Chỉ phát âm thanh khi cửa đang đóng
+            if (!isOpen)
+            {
+                isOpen = true;
+
+                if (doorAudioSource != null)
+                {
+                    doorAudioSource.Play();
+                }
+            }
         }
     }
+   
 
     private void OnTriggerExit(Collider other)
     {
