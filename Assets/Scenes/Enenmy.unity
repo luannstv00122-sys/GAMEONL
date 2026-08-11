@@ -653,6 +653,18 @@ PrefabInstance:
       value: MechaTinyBoB
       objectReference: {fileID: 0}
     - target: {fileID: 3854449619490104942, guid: d2292499b12845840a9c3aceb6b33f28, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854449619490104942, guid: d2292499b12845840a9c3aceb6b33f28, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854449619490104942, guid: d2292499b12845840a9c3aceb6b33f28, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854449619490104942, guid: d2292499b12845840a9c3aceb6b33f28, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
