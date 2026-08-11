@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9ddacede89e50904e8441f21a5674364
+timeCreated: 1473848207
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/Blood/Materials/BloodPoolParticle.mat
+  uploadId: 684565

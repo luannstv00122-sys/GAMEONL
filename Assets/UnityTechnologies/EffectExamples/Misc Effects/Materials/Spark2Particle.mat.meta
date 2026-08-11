@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2315f3166967ed343a17e37774c0b4c8
+timeCreated: 1473684431
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/Misc Effects/Materials/Spark2Particle.mat
+  uploadId: 684565

@@ -716,6 +716,10 @@ PrefabInstance:
       propertyPath: patrolRoute
       value: 
       objectReference: {fileID: 261090013}
+    - target: {fileID: 8764888263348044195, guid: d2292499b12845840a9c3aceb6b33f28, type: 3}
+      propertyPath: explosionVFX
+      value: 
+      objectReference: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

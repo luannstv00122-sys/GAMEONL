@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 27b05db48d6bb93499cedddda7dc527d
+timeCreated: 1473175611
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/WaterEffects/Prefabs/RainEffect.prefab
+  uploadId: 684565

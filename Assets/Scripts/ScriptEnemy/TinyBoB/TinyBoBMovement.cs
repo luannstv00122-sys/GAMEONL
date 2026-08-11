@@ -25,9 +25,14 @@ public class TinyBoBMovement : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private float dampTime = 0.1f;
 
+    [Header("Explosion VFX")]
+    [SerializeField] private GameObject explosionVFX;
+    [SerializeField] private float explosionVFXLifetime = 2f;
+
     private Transform player;
 
     private bool isChasing;
+    private bool hasExploded;
 
     private Transform[] patrolPoints;
     private int currentPoint;
@@ -98,10 +103,8 @@ public class TinyBoBMovement : MonoBehaviour
 
         agent.speed = patrolSpeed;
 
-        // TinyBoB không cần dừng để đánh
         agent.stoppingDistance = 0f;
 
-        // Bắt đầu từ Patrol Point đầu tiên
         currentPoint = 0;
 
         agent.SetDestination(
@@ -115,7 +118,9 @@ public class TinyBoBMovement : MonoBehaviour
 
     private void Update()
     {
-        // Tránh lỗi NavMeshAgent
+        if (hasExploded)
+            return;
+
         if (!agent.isOnNavMesh)
             return;
 
@@ -271,7 +276,6 @@ public class TinyBoBMovement : MonoBehaviour
         if (!agent.pathPending &&
             agent.remainingDistance <= agent.stoppingDistance)
         {
-            // Đang chờ
             if (!isWaiting)
             {
                 isWaiting = true;
@@ -280,7 +284,6 @@ public class TinyBoBMovement : MonoBehaviour
 
             waitTimer -= Time.deltaTime;
 
-            // Hết thời gian chờ
             if (waitTimer <= 0f)
             {
                 isWaiting = false;
@@ -344,7 +347,6 @@ public class TinyBoBMovement : MonoBehaviour
             animator.enabled = true;
         }
 
-        // Luôn chạy tới Player
         agent.SetDestination(
             player.position
         );
@@ -358,7 +360,6 @@ public class TinyBoBMovement : MonoBehaviour
     {
         Vector3 direction;
 
-        // Khi Chase Player
         if (isChasing && player != null)
         {
             direction =
@@ -367,7 +368,6 @@ public class TinyBoBMovement : MonoBehaviour
 
             direction.y = 0f;
         }
-        // Khi Patrol
         else
         {
             direction = agent.desiredVelocity;
@@ -454,15 +454,85 @@ public class TinyBoBMovement : MonoBehaviour
     }
 
     // =========================================================
-    // COLLISION - CHẠM PLAYER
+    // COLLISION - PLAYER
     // =========================================================
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (hasExploded)
+            return;
+
         if (collision.gameObject.CompareTag(playerTag))
         {
-            Destroy(gameObject);
+            Explode();
         }
+    }
+
+    // =========================================================
+    // TRIGGER - PLAYER
+    // =========================================================
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasExploded)
+            return;
+
+        if (other.CompareTag(playerTag))
+        {
+            Explode();
+        }
+    }
+
+    // =========================================================
+    // EXPLOSION
+    // =========================================================
+
+    private void Explode()
+    {
+        if (hasExploded)
+            return;
+
+        hasExploded = true;
+
+        // =========================
+        // DỪNG DI CHUYỂN
+        // =========================
+
+        if (agent != null &&
+            agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
+
+        // =========================
+        // SPAWN VFX
+        // =========================
+
+        if (explosionVFX != null)
+        {
+            GameObject vfx = Instantiate(
+                explosionVFX,
+                transform.position,
+                Quaternion.identity
+            );
+
+            Destroy(
+                vfx,
+                explosionVFXLifetime
+            );
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"{name}: Chưa gán Explosion VFX!"
+            );
+        }
+
+        // =========================
+        // DESTROY TINY BOB
+        // =========================
+
+        Destroy(gameObject);
     }
 
     // =========================================================

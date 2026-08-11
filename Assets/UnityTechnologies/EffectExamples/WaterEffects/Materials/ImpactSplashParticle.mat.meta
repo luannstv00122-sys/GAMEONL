@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e6137bd4693f7314795ca725805e0af0
+timeCreated: 1473074673
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/WaterEffects/Materials/ImpactSplashParticle.mat
+  uploadId: 684565

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bb584761aeb039e4b8bca657af7088c4
+timeCreated: 1473946152
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/Shared/Materials/StoneSurface.mat
+  uploadId: 684565
