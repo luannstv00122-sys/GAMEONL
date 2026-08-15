@@ -9,19 +9,22 @@ public class MechaBoBAttack : EnemyAttackBase
     [Header("Bullet")]
     [SerializeField] private float bulletSpeed = 40f;
 
-    private Transform player;
+    private MechaBoBMovement movement;
 
-    private void Start()
+    private void Awake()
     {
-        GameObject obj = GameObject.FindGameObjectWithTag("Player");
-
-        if (obj != null)
-            player = obj.transform;
+        movement = GetComponent<MechaBoBMovement>();
     }
 
     public override void Attack()
     {
         if (!CanAttack())
+            return;
+
+        if (movement == null)
+            return;
+
+        if (movement.Player == null)
             return;
 
         StartCoroutine(BurstFire(FireBullets));
@@ -32,24 +35,23 @@ public class MechaBoBAttack : EnemyAttackBase
         if (bulletPrefab == null)
             return;
 
+        if (movement == null)
+            return;
+
+        if (movement.Player == null)
+            return;
+
         foreach (Transform point in firePoints)
         {
             if (point == null)
                 continue;
 
-            GameObject bulletObj = RangedAttack(
+            RangedAttack(
                 bulletPrefab,
                 point,
-                player,
+                movement.Player,
                 bulletSpeed
             );
-
-            Bullet bullet = bulletObj.GetComponent<Bullet>();
-
-            if (bullet != null)
-            {
-                // bullet.damage = bulletDamage;
-            }
         }
     }
 }

@@ -32,6 +32,7 @@ public class MechaBoBMovement : MonoBehaviour
     [SerializeField] private float dampTime = 0.1f;
 
     private Transform player;
+    public Transform Player => player;
 
     private bool isChasing;
 
