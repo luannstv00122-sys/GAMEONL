@@ -9,59 +9,49 @@ public class MechaBoBAttack : EnemyAttackBase
     [Header("Bullet")]
     [SerializeField] private float bulletSpeed = 40f;
 
-    private Transform player;
+    private MechaBoBMovement movement;
 
-    private void Start()
+    private void Awake()
     {
-        GameObject obj = GameObject.FindGameObjectWithTag("Player");
-
-        if (obj != null)
-            player = obj.transform;
+        movement = GetComponent<MechaBoBMovement>();
     }
 
     public override void Attack()
-{
-    if (player == null)
-        return;
-
-    if (!CanAttack())
-        return;
-
-    StartCoroutine(BurstFire(FireBullets));
-}
-
-private void FireBullets()
-{
-    if (bulletPrefab == null)
-        return;
-
-    if (player == null)
-        return;
-
-    if (firePoints == null || firePoints.Length == 0)
-        return;
-
-    foreach (Transform point in firePoints)
     {
-        if (point == null)
-            continue;
+        if (!CanAttack())
+            return;
 
-        GameObject bulletObj = RangedAttack(
-            bulletPrefab,
-            point,
-            player,
-            bulletSpeed
-        );
+        if (movement == null)
+            return;
 
-        if (bulletObj == null)
-            continue;
+        if (movement.Player == null)
+            return;
 
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
+        StartCoroutine(BurstFire(FireBullets));
+    }
 
-        if (bullet != null)
+    private void FireBullets()
+    {
+        if (bulletPrefab == null)
+            return;
+
+        if (movement == null)
+            return;
+
+        if (movement.Player == null)
+            return;
+
+        foreach (Transform point in firePoints)
         {
-            // bullet.damage = bulletDamage;
+            if (point == null)
+                continue;
+
+            RangedAttack(
+                bulletPrefab,
+                point,
+                movement.Player,
+                bulletSpeed
+            );
         }
     }
-}
 }
