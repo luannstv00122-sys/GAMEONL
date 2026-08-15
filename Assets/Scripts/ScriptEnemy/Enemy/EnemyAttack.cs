@@ -7,6 +7,9 @@ public class EnemyAttack : EnemyAttackBase
     [SerializeField] private float attackForwardOffset = 1.5f;
     [SerializeField] private LayerMask targetLayer;
 
+    [Header("Damage")]
+    [SerializeField] private float damage = 20f;
+
     public override void Attack()
     {
         if (!CanAttack())
@@ -26,8 +29,15 @@ public class EnemyAttack : EnemyAttackBase
         {
             Debug.Log("Hit: " + target.name);
 
-            // Sau này:
-            // target.GetComponent<TakeDamageBase>()?.TakeDamage(damage);
+            PlayerHealth playerHealth =
+                target.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+
+                Debug.Log("Player mất " + damage + " máu");
+            }
         }
     }
 
@@ -35,7 +45,9 @@ public class EnemyAttack : EnemyAttackBase
     {
         Gizmos.color = Color.red;
 
-        Vector3 center = transform.position + transform.forward * attackForwardOffset;
+        Vector3 center =
+            transform.position +
+            transform.forward * attackForwardOffset;
 
         Gizmos.matrix = Matrix4x4.TRS(
             center,
@@ -43,7 +55,10 @@ public class EnemyAttack : EnemyAttackBase
             Vector3.one
         );
 
-        Gizmos.DrawWireCube(Vector3.zero, attackBoxSize);
+        Gizmos.DrawWireCube(
+            Vector3.zero,
+            attackBoxSize
+        );
 
         Gizmos.matrix = Matrix4x4.identity;
     }

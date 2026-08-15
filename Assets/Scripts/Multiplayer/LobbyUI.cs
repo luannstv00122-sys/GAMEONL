@@ -35,6 +35,23 @@ public class LobbyUI : MonoBehaviour
         "Hangar G8",
         "Sci-Fi Corridor Alpha"
     };
+    [Header("Button Sounds")]
+[SerializeField] private AudioSource uiAudioSource;
+
+// 4 nút Map dùng chung 1 âm thanh
+[SerializeField] private AudioClip mapSelectSound;
+
+// Ready và Cancel Ready dùng âm riêng
+[SerializeField] private AudioClip readySound;
+[SerializeField] private AudioClip cancelReadySound;
+
+private void PlaySound(AudioClip clip)
+{
+    if (uiAudioSource != null && clip != null)
+    {
+        uiAudioSource.PlayOneShot(clip);
+    }
+}
 
     private NetworkRunner _runner;
     private LobbyState _lobbyState;
@@ -242,7 +259,7 @@ public class LobbyUI : MonoBehaviour
             Debug.LogWarning("Chỉ Host mới được chọn map.");
             return;
         }
-
+            PlaySound(mapSelectSound);
         _lobbyState.RequestSelectMap(mapIndex);
     }
 
@@ -306,18 +323,27 @@ public class LobbyUI : MonoBehaviour
         return;
     }
 
+    if (_runner == null || !_runner.IsRunning)
+    {
+        Debug.LogError("NetworkRunner chưa hoạt động.");
+        return;
+    }
+
+    bool isReady = _lobbyState.IsPlayerReady(_runner.LocalPlayer);
+
+    if (isReady)
+    {
+        // Đang Ready -> bấm lần nữa là Cancel Ready
+        PlaySound(cancelReadySound);
+    }
+    else
+    {
+        // Chưa Ready -> bấm là Ready
+        PlaySound(readySound);
+    }
+
     _lobbyState.RequestToggleReady();
 }
-
-    public void StartGame()
-    {
-        FindNetworkObjects();
-
-        if (_lobbyState == null)
-            return;
-
-        _lobbyState.RequestStartGame();
-    }
 
     private void SetStatus(string message)
     {

@@ -9684,6 +9684,7 @@ GameObject:
   - component: {fileID: 94663039582270331}
   - component: {fileID: 1556155084870870888}
   - component: {fileID: 723467428898626778}
+  - component: {fileID: 9163349814088462535}
   m_Layer: 0
   m_Name: S_Fire
   m_TagString: Untagged
@@ -14535,6 +14536,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b20d0dfb263cc499fdc3b17f6946ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireProjectile
+  damage: 20
+--- !u!65 &9163349814088462535
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5444172128159375971}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11.8423395, y: 11.8423395, z: 11.8423395}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7192397928483849401
 GameObject:
   m_ObjectHideFlags: 0

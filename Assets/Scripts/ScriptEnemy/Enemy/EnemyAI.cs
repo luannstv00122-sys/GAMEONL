@@ -41,6 +41,12 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField]
     private float findPlayerInterval = 0.5f;
+    [Header("Movement Sound")]
+[SerializeField] private AudioSource moveAudioSource;
+[SerializeField] private AudioClip moveSound;
+[SerializeField] private float moveThreshold = 0.05f;
+
+private Vector3 lastPosition;
 
     private void Awake()
     {
@@ -97,10 +103,38 @@ public class EnemyAI : MonoBehaviour
         agent.SetDestination(
             patrolPoints[currentPoint].position
         );
+        lastPosition = transform.position;
+
+if (moveAudioSource != null)
+{
+    moveAudioSource.clip = moveSound;
+    moveAudioSource.loop = true;
+    moveAudioSource.playOnAwake = false;
+}
     }
 
     private void Update()
     {
+        float moveDistance =
+    Vector3.Distance(transform.position, lastPosition);
+
+bool isMoving = moveDistance > moveThreshold * Time.deltaTime;
+
+if (moveAudioSource != null && moveSound != null)
+{
+    if (isMoving)
+    {
+        if (!moveAudioSource.isPlaying)
+            moveAudioSource.Play();
+    }
+    else
+    {
+        if (moveAudioSource.isPlaying)
+            moveAudioSource.Stop();
+    }
+}
+
+lastPosition = transform.position;
         // Tránh lỗi NavMeshAgent
         if (!agent.isOnNavMesh)
             return;

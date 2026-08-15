@@ -345,8 +345,38 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
+
         if (!runner.IsServer)
             return;
+            // =========================
+    // QUAY LẠI LOBBY
+    // =========================
+    if (SceneManager.GetActiveScene().name == "Lobby")
+    {
+        LobbyState existingLobby =
+            FindFirstObjectByType<LobbyState>();
+
+        if (existingLobby == null)
+        {
+            _lobbyStateObject = runner.Spawn(
+                lobbyStatePrefab,
+                Vector3.zero,
+                Quaternion.identity
+            );
+
+            Debug.Log("Đã spawn lại LobbyState.");
+        }
+        else
+        {
+            _lobbyStateObject = existingLobby.Object;
+        }
+
+        return;
+    }
+
+    // =========================
+    // GAMEPLAY
+    // =========================
 
         GameObject[] spawnObjects =
             GameObject.FindGameObjectsWithTag("SpawnPoint");

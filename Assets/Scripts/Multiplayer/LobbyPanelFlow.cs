@@ -12,6 +12,15 @@ public class LobbyPanelFlow : MonoBehaviour
     [SerializeField] private GameObject loadingPanel;
 
     [Header("Room UI")]
+    [Header("Button Sound")]
+[SerializeField] private AudioSource uiAudioSource;
+[SerializeField] private AudioClip buttonClickSound;
+
+public void PlayButtonSound()
+{
+    if (uiAudioSource != null && buttonClickSound != null)
+        uiAudioSource.PlayOneShot(buttonClickSound);
+}
     [SerializeField] private GameObject hostButton;
     [SerializeField] private GameObject joinButton;
     [SerializeField] private Button roomNextButton;
@@ -21,13 +30,22 @@ public class LobbyPanelFlow : MonoBehaviour
     private LobbyState lobbyState;
 
     private void Start()
+{
+    if (ReturnToMapFlag.ReturnToMapSelection)
+    {
+        ShowOnly(mapSelectionPanel);
+    }
+    else
     {
         ShowOnly(roomPanel);
-        SetConnectedUI(false);
     }
+
+    SetConnectedUI(false);
+}
 
     private void Update()
 {
+
     FindNetworkObjects();
 
     bool runnerConnected =
@@ -44,6 +62,16 @@ public class LobbyPanelFlow : MonoBehaviour
 
     if (!lobbyReady)
         return;
+        if (ReturnToMapFlag.ReturnToMapSelection)
+{
+    if (runner.IsServer)
+    {
+        lobbyState.RequestOpenMapSelection();
+        ReturnToMapFlag.ReturnToMapSelection = false;
+    }
+
+    return;
+}
 
     UpdatePanelsFromNetwork();
     UpdateHostUI();
@@ -127,6 +155,7 @@ public class LobbyPanelFlow : MonoBehaviour
 
     public void GoToMapSelection()
     {
+        PlayButtonSound();
         FindNetworkObjects();
 
         if (runner == null || !runner.IsRunning)
@@ -153,6 +182,7 @@ public class LobbyPanelFlow : MonoBehaviour
 
     public void GoToCharacterSelection()
 {
+    PlayButtonSound();
     Debug.Log("Đã bấm Next ở màn chọn Map.");
 
     if (runner == null)
@@ -204,6 +234,7 @@ public class LobbyPanelFlow : MonoBehaviour
 
     public void BackToRoom()
     {
+        PlayButtonSound();
         FindNetworkObjects();
 
         if (runner != null && runner.IsServer && lobbyState != null)
@@ -212,6 +243,7 @@ public class LobbyPanelFlow : MonoBehaviour
 
     public void BackToMapSelection()
     {
+        PlayButtonSound();
         FindNetworkObjects();
 
         if (runner != null && runner.IsServer && lobbyState != null)
@@ -220,6 +252,7 @@ public class LobbyPanelFlow : MonoBehaviour
 
     public void StartGame()
     {
+        PlayButtonSound();
         FindNetworkObjects();
 
         if (runner == null || !runner.IsRunning || lobbyState == null)

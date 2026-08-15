@@ -24,6 +24,22 @@ public class CharacterSelectionUI : MonoBehaviour
     [Header("Visual Settings")]
     [Range(0f, 1f)]
     [SerializeField] private float selectedDarkness = 0.18f;
+    [Header("Button Sounds")]
+[SerializeField] private AudioSource uiAudioSource;
+
+[SerializeField] private AudioClip nextSound;
+[SerializeField] private AudioClip previousSound;
+[SerializeField] private AudioClip chooseSound;
+[SerializeField] private AudioClip cancelSound;
+
+// Tất cả nhân vật dùng chung âm thanh này
+[SerializeField] private AudioClip characterSelectSound;
+
+private void PlaySound(AudioClip clip)
+{
+    if (uiAudioSource != null && clip != null)
+        uiAudioSource.PlayOneShot(clip);
+}
 
     private NetworkRunner runner;
     private LobbyState lobbyState;
@@ -61,33 +77,37 @@ public class CharacterSelectionUI : MonoBehaviour
     }
 
     public void NextCharacter()
-    {
-        if (characterSprites == null || characterSprites.Length == 0)
-            return;
+{
+    PlaySound(nextSound);
 
-        previewIndex++;
+    if (characterSprites == null || characterSprites.Length == 0)
+        return;
 
-        if (previewIndex >= characterSprites.Length)
-            previewIndex = 0;
+    previewIndex++;
 
-        UpdatePreview();
-    }
+    if (previewIndex >= characterSprites.Length)
+        previewIndex = 0;
 
+    UpdatePreview();
+}
     public void PreviousCharacter()
-    {
-        if (characterSprites == null || characterSprites.Length == 0)
-            return;
+{
+    PlaySound(previousSound);
 
-        previewIndex--;
+    if (characterSprites == null || characterSprites.Length == 0)
+        return;
 
-        if (previewIndex < 0)
-            previewIndex = characterSprites.Length - 1;
+    previewIndex--;
 
-        UpdatePreview();
-    }
+    if (previewIndex < 0)
+        previewIndex = characterSprites.Length - 1;
+
+    UpdatePreview();
+}
 
     public void ChooseCharacter()
     {
+        PlaySound(chooseSound);
         Debug.Log("Đã bấm Choose.");
 
         FindNetworkReferences();
@@ -134,6 +154,7 @@ public class CharacterSelectionUI : MonoBehaviour
 
     public void CancelCharacter()
     {
+        PlaySound(cancelSound);
         Debug.Log("Đã bấm Cancel.");
 
         FindNetworkReferences();
@@ -175,12 +196,41 @@ public class CharacterSelectionUI : MonoBehaviour
         UpdatePreview();
     }
 
-    public void SelectJan() => SelectThumbnail(0);
-    public void SelectEris() => SelectThumbnail(1);
-    public void SelectVan() => SelectThumbnail(2);
-    public void SelectKiller() => SelectThumbnail(3);
-    public void SelectEkko() => SelectThumbnail(4);
-    public void SelectJin() => SelectThumbnail(5);
+    public void SelectJan()
+{
+    PlaySound(characterSelectSound);
+    SelectThumbnail(0);
+}
+
+public void SelectEris()
+{
+    PlaySound(characterSelectSound);
+    SelectThumbnail(1);
+}
+
+public void SelectVan()
+{
+    PlaySound(characterSelectSound);
+    SelectThumbnail(2);
+}
+
+public void SelectKiller()
+{
+    PlaySound(characterSelectSound);
+    SelectThumbnail(3);
+}
+
+public void SelectEkko()
+{
+    PlaySound(characterSelectSound);
+    SelectThumbnail(4);
+}
+
+public void SelectJin()
+{
+    PlaySound(characterSelectSound);
+    SelectThumbnail(5);
+}
 
     private void UpdatePreview()
     {

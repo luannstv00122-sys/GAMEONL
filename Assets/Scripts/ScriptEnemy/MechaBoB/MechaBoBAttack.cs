@@ -20,36 +20,48 @@ public class MechaBoBAttack : EnemyAttackBase
     }
 
     public override void Attack()
+{
+    if (player == null)
+        return;
+
+    if (!CanAttack())
+        return;
+
+    StartCoroutine(BurstFire(FireBullets));
+}
+
+private void FireBullets()
+{
+    if (bulletPrefab == null)
+        return;
+
+    if (player == null)
+        return;
+
+    if (firePoints == null || firePoints.Length == 0)
+        return;
+
+    foreach (Transform point in firePoints)
     {
-        if (!CanAttack())
-            return;
+        if (point == null)
+            continue;
 
-        StartCoroutine(BurstFire(FireBullets));
-    }
+        GameObject bulletObj = RangedAttack(
+            bulletPrefab,
+            point,
+            player,
+            bulletSpeed
+        );
 
-    private void FireBullets()
-    {
-        if (bulletPrefab == null)
-            return;
+        if (bulletObj == null)
+            continue;
 
-        foreach (Transform point in firePoints)
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
+
+        if (bullet != null)
         {
-            if (point == null)
-                continue;
-
-            GameObject bulletObj = RangedAttack(
-                bulletPrefab,
-                point,
-                player,
-                bulletSpeed
-            );
-
-            Bullet bullet = bulletObj.GetComponent<Bullet>();
-
-            if (bullet != null)
-            {
-                // bullet.damage = bulletDamage;
-            }
+            // bullet.damage = bulletDamage;
         }
     }
+}
 }

@@ -10,10 +10,10 @@ public class AutoDoor : MonoBehaviour
     public float openDistance = 1.5f;
     public float openSpeed = 3f;
 
-    //----
-    [Header("Door Sound")]
-    public AudioSource doorAudioSource;
-    //----
+    [Header("Door Sounds")]
+    [SerializeField] private AudioSource doorAudioSource;
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioClip closeSound;
 
     private Vector3 leftClosedPos;
     private Vector3 rightClosedPos;
@@ -25,16 +25,26 @@ public class AutoDoor : MonoBehaviour
 
     void Start()
     {
+        // Lưu vị trí WORLD ban đầu
+        if (leftDoor != null)
+            leftClosedPos = leftDoor.position;
+
+        if (rightDoor != null)
+            rightClosedPos = rightDoor.position;
+
+        // Hướng ngang của toàn bộ bộ cửa
+        Vector3 horizontalDirection = transform.right;
+
         if (leftDoor != null)
         {
-            leftClosedPos = leftDoor.localPosition;
-            leftOpenPos = leftClosedPos + Vector3.left * openDistance;
+            leftOpenPos =
+                leftClosedPos - horizontalDirection * openDistance;
         }
 
         if (rightDoor != null)
         {
-            rightClosedPos = rightDoor.localPosition;
-            rightOpenPos = rightClosedPos + Vector3.right * openDistance;
+            rightOpenPos =
+                rightClosedPos + horizontalDirection * openDistance;
         }
     }
 
@@ -42,50 +52,52 @@ public class AutoDoor : MonoBehaviour
     {
         if (leftDoor != null)
         {
-            Vector3 targetPos = isOpen ? leftOpenPos : leftClosedPos;
+            Vector3 target =
+                isOpen ? leftOpenPos : leftClosedPos;
 
-            leftDoor.localPosition = Vector3.Lerp(
-                leftDoor.localPosition,
-                targetPos,
+            leftDoor.position = Vector3.Lerp(
+                leftDoor.position,
+                target,
                 Time.deltaTime * openSpeed
             );
         }
 
         if (rightDoor != null)
         {
-            Vector3 targetPos = isOpen ? rightOpenPos : rightClosedPos;
+            Vector3 target =
+                isOpen ? rightOpenPos : rightClosedPos;
 
-            rightDoor.localPosition = Vector3.Lerp(
-                rightDoor.localPosition,
-                targetPos,
+            rightDoor.position = Vector3.Lerp(
+                rightDoor.position,
+                target,
                 Time.deltaTime * openSpeed
             );
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void PlayDoorSound(AudioClip clip)
     {
-        if (other.CompareTag("Player"))
+        if (doorAudioSource != null && clip != null)
         {
-           // Chỉ phát âm thanh khi cửa đang đóng
-            if (!isOpen)
-            {
-                isOpen = true;
-
-                if (doorAudioSource != null)
-                {
-                    doorAudioSource.Play();
-                }
-            }
+            doorAudioSource.PlayOneShot(clip);
         }
     }
-   
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !isOpen)
+        {
+            isOpen = true;
+            PlayDoorSound(openSound);
+        }
+    }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && isOpen)
         {
             isOpen = false;
+            PlayDoorSound(closeSound);
         }
     }
 }

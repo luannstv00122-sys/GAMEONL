@@ -30,14 +30,34 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void TakeDamage(float damage)
-    {
-        if (damage <= 0f)
-            return;
+{
+    if (damage <= 0f)
+        return;
 
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        UpdateHealthUI();
+    currentHealth -= damage;
+    currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+    UpdateHealthUI();
+
+    Debug.Log("Player HP: " + currentHealth);
+
+    if (currentHealth <= 0f)
+    {
+        Die();
     }
+}
+
+private void Die()
+{
+    Debug.Log("Player đã chết!");
+
+    if (GameResultManager.Instance != null)
+    {
+        GameResultManager.Instance.Lose();
+    }
+
+    Destroy(gameObject);
+}
 
     public void Heal(float amount)
     {

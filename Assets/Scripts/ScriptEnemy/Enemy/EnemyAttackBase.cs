@@ -53,43 +53,65 @@ public abstract class EnemyAttackBase : MonoBehaviour
     }
 
     protected virtual GameObject RangedAttack(
-        GameObject bulletPrefab,
-        Transform firePoint,
-        Transform target,
-        float bulletSpeed)
+    GameObject bulletPrefab,
+    Transform firePoint,
+    Transform target,
+    float bulletSpeed)
+{
+    if (bulletPrefab == null)
     {
-        Collider col = target.GetComponent<Collider>();
-
-        Vector3 targetPoint = target.position;
-
-        if (col != null)
-            targetPoint = col.bounds.center;
-
-        Vector3 direction = (targetPoint - firePoint.position).normalized;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-
-        GameObject bullet = Instantiate(
-    bulletPrefab,
-    firePoint.position,
-    rotation
-);
-
-        Debug.Log(
-            $"💥 SPAWN BULLET | ID: {bullet.GetInstanceID()} | Enemy: {name}"
-        );
-
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
-        if (rb != null)
-            rb.linearVelocity = direction * bulletSpeed;
-
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-
-        if (bulletScript != null)
-            bulletScript.speed = bulletSpeed;
-
-        return bullet;
+        Debug.LogError($"{name}: Bullet Prefab đang NULL!");
+        return null;
     }
+
+    if (firePoint == null)
+    {
+        Debug.LogError($"{name}: Fire Point đang NULL!");
+        return null;
+    }
+
+    if (target == null)
+    {
+        Debug.LogWarning($"{name}: Target đã NULL, không thể bắn!");
+        return null;
+    }
+
+    Collider col = target.GetComponent<Collider>();
+
+    Vector3 targetPoint = target.position;
+
+    if (col != null)
+        targetPoint = col.bounds.center;
+
+    Vector3 direction = (targetPoint - firePoint.position).normalized;
+
+    if (direction.sqrMagnitude <= 0.001f)
+        return null;
+
+    Quaternion rotation = Quaternion.LookRotation(direction);
+
+    GameObject bullet = Instantiate(
+        bulletPrefab,
+        firePoint.position,
+        rotation
+    );
+
+    Debug.Log(
+        $"💥 SPAWN BULLET | ID: {bullet.GetInstanceID()} | Enemy: {name}"
+    );
+
+    Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+    if (rb != null)
+        rb.linearVelocity = direction * bulletSpeed;
+
+    Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+    if (bulletScript != null)
+        bulletScript.speed = bulletSpeed;
+
+    return bullet;
+}
 
     protected IEnumerator BurstFire(Action fireAction)
     {

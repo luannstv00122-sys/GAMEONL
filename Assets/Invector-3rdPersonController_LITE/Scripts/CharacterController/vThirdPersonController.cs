@@ -4,6 +4,19 @@ namespace Invector.vCharacterController
 {
     public class vThirdPersonController : vThirdPersonAnimator
     {
+        [Header("Player Movement Audio")]
+        [SerializeField] private AudioSource movementAudioSource;
+        [SerializeField] private AudioClip walkSound;
+        [SerializeField] private AudioClip runSound;
+        [SerializeField] private AudioClip jumpSound;
+
+        [Header("Player Audio Volume")]
+        [Range(0f, 1f)] [SerializeField] private float walkVolume = 0.5f;
+        [Range(0f, 1f)] [SerializeField] private float runVolume = 0.7f;
+        [Range(0f, 1f)] [SerializeField] private float jumpVolume = 1f;
+
+        private AudioClip currentMovementClip;
+
         public virtual void ControlAnimatorRootMotion()
 {
     if (!enabled)
@@ -54,6 +67,8 @@ namespace Invector.vCharacterController
 
             if (!useRootMotion)
                 MoveCharacter(moveDirection);
+
+            UpdateMovementAudio();
         }
 
         public virtual void ControlRotationType()
@@ -132,6 +147,11 @@ namespace Invector.vCharacterController
 
         public virtual void Jump()
         {
+            StopMovementAudio();
+
+            if (movementAudioSource != null && jumpSound != null)
+                movementAudioSource.PlayOneShot(jumpSound, jumpVolume);
+
             // trigger jump behaviour
             jumpCounter = jumpTimer;
             isJumping = true;
@@ -142,5 +162,55 @@ namespace Invector.vCharacterController
             else
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
         }
+        private void UpdateMovementAudio()
+        {
+            if (movementAudioSource == null)
+                return;
+
+            bool isMoving =
+                input.sqrMagnitude > 0.1f &&
+                isGrounded &&
+                !isJumping;
+
+            if (!isMoving)
+            {
+                StopMovementAudio();
+                return;
+            }
+
+            if (isSprinting)
+                PlayMovementLoop(runSound, runVolume);
+            else
+                PlayMovementLoop(walkSound, walkVolume);
+        }
+
+        private void PlayMovementLoop(AudioClip clip, float volume)
+        {
+            if (movementAudioSource == null || clip == null)
+                return;
+
+            if (currentMovementClip == clip && movementAudioSource.isPlaying)
+                return;
+
+            movementAudioSource.Stop();
+            currentMovementClip = clip;
+            movementAudioSource.clip = clip;
+            movementAudioSource.volume = volume;
+            movementAudioSource.loop = true;
+            movementAudioSource.Play();
+        }
+
+        private void StopMovementAudio()
+        {
+            if (movementAudioSource == null)
+                return;
+
+            if (currentMovementClip != null && movementAudioSource.isPlaying)
+                movementAudioSource.Stop();
+
+            movementAudioSource.loop = false;
+            currentMovementClip = null;
+        }
+
     }
 }
