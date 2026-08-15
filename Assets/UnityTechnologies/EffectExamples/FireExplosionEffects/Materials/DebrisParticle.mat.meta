@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a1a7777f42f5a2f409029ab95582c24e
+timeCreated: 1471611776
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/FireExplosionEffects/Materials/DebrisParticle.mat
+  uploadId: 684565

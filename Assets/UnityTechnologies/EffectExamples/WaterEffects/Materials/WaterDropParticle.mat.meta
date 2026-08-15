@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3d29c005d8a844142aac53e80c297002
+timeCreated: 1472652419
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/WaterEffects/Materials/WaterDropParticle.mat
+  uploadId: 684565

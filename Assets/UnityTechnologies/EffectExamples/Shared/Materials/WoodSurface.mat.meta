@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2d0d7c869c1f5a9448b9702a5790348e
+timeCreated: 1473953683
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/Shared/Materials/WoodSurface.mat
+  uploadId: 684565

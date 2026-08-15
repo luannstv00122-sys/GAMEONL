@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 578d6ad730224b140bdb1ce330667c73
+timeCreated: 1473933391
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/Shared/Materials/FleshSurface.mat
+  uploadId: 684565

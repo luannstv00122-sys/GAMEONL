@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e5da4d6c26003b84bb34402d5173fbc1
+timeCreated: 1473672216
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/WeaponEffects/Materials/DustPuffParticle.mat
+  uploadId: 684565

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d4cb9c9f20958d4eba5ec293cff8489
+timeCreated: 1473955917
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/UnityTechnologies/EffectExamples/WeaponEffects/Materials/BulletDecalWood.mat
+  uploadId: 684565
